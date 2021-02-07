@@ -1,3 +1,16 @@
+import org.yaml.snakeyaml.DumperOptions
+import org.yaml.snakeyaml.Yaml
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.yaml:snakeyaml:1.27")
+    }
+}
+
+
 plugins {
 	id 'org.springframework.boot' version '2.4.2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -6,7 +19,7 @@ plugins {
 }
 
 group = 'feri'
-version = '0.0.1-SNAPSHOT'
+version = '0.1.0'
 sourceCompatibility = '11'
 
 repositories {
@@ -21,7 +34,7 @@ dependencies {
 }
 
 bootJar {
-    mainClassName = 'feri.reactivetest.ReactivetestApplication'
+    mainClassName = 'pf.reactivetest.ReactivetestApplication'
 }
 
 test {
@@ -48,3 +61,4 @@ docker {
 	files jar.archiveFile
 	noCache true
 }
+
