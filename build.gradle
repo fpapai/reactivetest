@@ -1,0 +1,50 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.2'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'com.palantir.docker' version '0.26.0'
+}
+
+group = 'feri'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+}
+
+bootJar {
+    mainClassName = 'feri.reactivetest.ReactivetestApplication'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+task prepareDockerfile(type: Copy) {
+    from 'docker/Dockerfile.template'
+    rename '.*', "${buildDir.name}/Dockerfile"
+    destinationDir projectDir
+    expand (JARNAME: jar.archiveName)    
+}
+
+bootJar.dependsOn prepareDockerfile
+
+prepareDockerfile.doLast {
+	println file( "${buildDir}/Dockerfile" ).exists()
+}
+
+docker {
+	//dependsOn prepareDockerfile
+	name "$project.name:$version"
+	dockerfile file( "${buildDir}/Dockerfile" )
+	files jar.archiveFile
+	noCache true
+}

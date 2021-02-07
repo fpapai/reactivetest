@@ -1,0 +1,4 @@
+FROM adoptopenjdk/openjdk15:x86_64-alpine-jre-15.0.2_7
+COPY ${JARNAME} ${JARNAME}
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","${JARNAME}"]
