@@ -48,17 +48,22 @@ task prepareDockerfile(type: Copy) {
     expand (JARNAME: jar.archiveName)    
 }
 
-bootJar.dependsOn prepareDockerfile
 
-prepareDockerfile.doLast {
-	println file( "${buildDir}/Dockerfile" ).exists()
+processResources {
+    filesMatching("**/*.yml") {
+        expand project.properties
+    }
 }
+
+bootJar.dependsOn prepareDockerfile
+compileJava.dependsOn processResources
+
 
 docker {
 	//dependsOn prepareDockerfile
 	name "$project.name:$version"
 	dockerfile file( "${buildDir}/Dockerfile" )
 	files jar.archiveFile
-	noCache true
+	//noCache true
 }
 

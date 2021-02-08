@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,32 +19,29 @@ public class SystemController {
     
     private static final Logger LOG = LoggerFactory.getLogger( MethodHandles.lookup().lookupClass() );
 
-    @Value("${app.name}")
-    private String name;
+    @Autowired
+    private AppConfiguration appCfg;
     
-    @Value("${app.version}")
-    private String version;
-
     @GetMapping("/version")
     public Mono<String> getVersion(){
-        return Mono.just( version );
+        return Mono.just( appCfg.getVersion() );
     }
     
     @GetMapping("/name")
     public Mono<String> getAppName(){
-        return Mono.just( name );
+        return Mono.just( appCfg.getName() );
     }
     
     @GetMapping("/date")
     public Mono<String> date(){
-        String v = String.format( "[%s] date=%s", name, new Date().toString() );
+        String v = String.format( "[%s] date=%s", appCfg.getName(), new Date().toString() );
         LOG.info( v );
         return Mono.just( v );
     }
     
     @GetMapping("/random")
     public Mono<String> random(){
-        String v = String.format( "[%s] random=%d", name, ThreadLocalRandom.current().nextInt() );
+        String v = String.format( "[%s] random=%d", appCfg.getName(), ThreadLocalRandom.current().nextInt() );
         LOG.info( v );
         return Mono.just( v );
     }
@@ -64,7 +61,7 @@ public class SystemController {
     
     private String generateServiceCallResponse( String url, String path, String response ) {
         return String.format( "[service '%s' calling '%s/%s', received=%s]",
-                name, url, path, response );
+                appCfg.getName(), url, path, response );
     }
     
     private static String createAddress( String hostPort ) {
