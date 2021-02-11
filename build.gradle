@@ -68,9 +68,21 @@ jib {
   from {
     image = 'adoptopenjdk/openjdk15:x86_64-alpine-jre-15.0.2_7'
   }
+  //to use with jibDickerBuld
   to {
-    image = "$project.name:$version" 
+    image = "$project.name:$version"
   }
+  //to use with jib
+  //to {
+    //image = "artifacts.corp.xperi.com/imagedb-docker/$project.name:$version"
+    //auth {
+    	////credentials can be given here,
+    	////or CLI:    -Djib.to.auth.username=USERNAME -Djib.to.auth.password=PASSWORD
+    	///or gradle config
+     // username = '...'   
+     // password = '...'
+    //}
+  //}
   container {
     jvmFlags = ['-Dmy.property=example.value', '-Xms512m']
     mainClass = appMainClassName

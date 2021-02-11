@@ -21,8 +21,8 @@ Made by Google.
 Can work with and without local docker CLI.
 It can add local or remote repository.
 
-With local docker:
+ * ```gradle jibDockerBuild```
+ uses local docker cli, it stores image locally
 
-```gradle jibDockerBuild```
-
-Todo, test authentication of pushed to Artifactory.
+ * ```gradle jib``` pushes image to remove repository. It does not need local docker installation. Uncomment the documented code in build.gradle. Username/passwords are required. Can be set in build file or provided in CLI.
+ 
