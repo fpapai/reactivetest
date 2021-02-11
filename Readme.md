@@ -7,7 +7,7 @@
 https://plugins.gradle.org/search?term=com.palantir.docker
 
 It requires local docker CLI.
-It can add local or remote repository.
+It can add to local or remote docker repository.
 
 Todo, test authentication of pushed to Artifactory.
 
@@ -18,11 +18,11 @@ Todo, test authentication of pushed to Artifactory.
 https://github.com/GoogleContainerTools/jib
 
 Made by Google.
-Can work with and without local docker CLI.
-It can add local or remote repository.
+It can work with and without local docker CLI.
+It can add to local or remote repository.
 
  * ```gradle jibDockerBuild```
- uses local docker cli, it stores image locally
+ uses local docker cli; stores image locally
 
- * ```gradle jib``` pushes image to remove repository. It does not need local docker installation. Uncomment the documented code in build.gradle. Username/passwords are required. Can be set in build file or provided in CLI.
+ * ```gradle jib``` pushes image to remote repository. It does not need local docker installation. Uncomment the documented code in build.gradle. Username/passwords are required for docker repo. Those can be set in build file or provided in CLI.
  
